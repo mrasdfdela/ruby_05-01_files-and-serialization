@@ -10,7 +10,7 @@ def zip_code_converter(code)
   #   code = "0" + code
   # end
   # return code
-  code.to_s.rjust(5,"0")[0..4]
+  code.to_s.rjust(5,"0")[0..4] #Coercion over questions
 end
 
 if File.exist? "event_attendees.csv"

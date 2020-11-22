@@ -24,6 +24,20 @@ def legislators_by_zipcode(zip)
   end
 end
 
+def clean_phone_number(phone)
+  phone = phone.to_s.split('')
+  phone.delete_if { |char| false if Float(char) rescue true }
+  phone.shift if phone[0] == 1.to_s
+
+  phone.length == 10 ? format_phone(phone.join('')) : 'Invalid phone number'
+end
+def format_phone(phone)
+  area_cd = "#{phone[0..2]}"
+  exc_cd = "#{phone[3..5]}"
+  subscriber = "#{phone[6..9]}"
+  "(#{area_cd})#{exc_cd}-#{subscriber}"
+end
+
 def save_thank_you_letter(id, form_letter)
   Dir.mkdir("output") unless Dir.exists? "output"
   filename = "output/thanks_#{id}.html"
@@ -42,7 +56,7 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislators_by_zipcode(zipcode)
-
+  phone = clean_phone_number(row[:homephone])
   # puts "#{name}, #{zipcode}: #{legislators}"
   # personal_letter = template_letter.gsub!('FIRST_NAME', name)
   # personal_letter = template_letter.gsub!('LEGISLATORS', name)
@@ -50,4 +64,3 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
   save_thank_you_letter(id,form_letter)
 end
-

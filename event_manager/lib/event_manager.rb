@@ -16,7 +16,7 @@ def zip_code_converter(code)
   code.to_s.rjust(5,"0")[0..4] #Coercion over questions
 end
 
-def clean_phone_numbers(phone)
+def clean_phone_number(phone)
   phone = phone.to_s.split('')
   phone.delete_if { |char| false if Float(char) rescue true }
   phone.shift if phone[0] == 1.to_s
@@ -45,7 +45,7 @@ if File.exist? "event_attendees.csv"
   contents.each do |row|
     name = row[:first_name]
     zipcode = zip_code_converter(row[:zipcode])
-    phone_number = clean_phone_numbers(row[:homephone])
+    phone_number = clean_phone_number(row[:homephone])
     reg_date = DateTime.strptime(row[:regdate], '%m/%d/%y %k: %M')
 
     hour_counter(hour_count, reg_date)

@@ -26,5 +26,10 @@
         <td><%= "#{legislators}" %></td>
       <% end %>
     </table>
+    <% if phone.length == 13 %>
+      <p>Please sign up here if you'd like us to text updates at <%= "#{phone}" %> </p>
+    <% else %>
+      <p>Please text "UPDATE" at (555)000-0000 to receive updates from our campaign</p>
+    <% end %>
   </body>
 </html>
